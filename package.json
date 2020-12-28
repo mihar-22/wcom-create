@@ -1,0 +1,40 @@
+{
+  "name": "@wcom/create-app",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Rahim Alwer <rahim_alwer@hotmail.com>",
+  "description": "Set up a modern web component library by running one command.",
+  "main": "index.js",
+  "homepage": "https://github.com/mihar-22/wc-create-app",
+  "bugs": {
+    "url": "https://github.com/mihar-22/wc-create-app"
+  },
+  "bin": {
+    "create-app": "cli.js"
+  },
+  "files": [
+    "index.js",
+    "template-*"
+  ],
+  "scripts": {
+    "release": "npx semantic-release --branches main"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.0",
+    "minimist": "^1.2.5"
+  },
+  "keywords": [
+    "web-components",
+    "cli",
+    "scaffold",
+    "starter",
+    "generate",
+    "production ready",
+    "scaffold",
+    "lit-element",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
