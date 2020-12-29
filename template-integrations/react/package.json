@@ -13,6 +13,9 @@
     "build:esm": "tsc --module es6 --outDir dist/esm",
     "clean": "rimraf dist && rimraf @types"
   },
+  "dependencies": {
+    "@seznam/compose-react-refs": "^1.0.0"
+  },
   "devDependencies": {
     "@types/react": "^16.9.9",
     "@types/react-dom": "^16.9.9",

@@ -10,10 +10,11 @@
     "url": "https://github.com/mihar-22/wc-create-app"
   },
   "bin": {
-    "create-app": "cli.js"
+    "create-wcom-app": "cli.js"
   },
   "files": [
-    "index.js",
+    "src/",
+    "cli.js",
     "template-*"
   ],
   "scripts": {
@@ -22,7 +23,9 @@
   "dependencies": {
     "fs-extra": "^9.0.0",
     "kleur": "^4.1.3",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "prompts": "^2.4.0",
+    "validate-npm-package-name": "^3.0.0"
   },
   "keywords": [
     "wcom",
