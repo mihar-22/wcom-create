@@ -1,0 +1,22 @@
+{
+  "version": "0.0.0",
+  "files": [
+    "bundles",
+    "components",
+    "esm2015",
+    "fesm2015",
+    "*.d.ts",
+    "core.metadata.json"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^11.0.4",
+    "@angular/core": "^11.0.4",
+    "rxjs": "^6.6.2"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "rxjs": "^6.6.2"
+  }
+}

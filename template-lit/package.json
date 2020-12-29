@@ -1,28 +1,17 @@
 {
-  "name": "{{PKG_NAME}}",
   "version": "0.0.0",
-  "description": "{{DESCRIPTION}}",
-  "license": "MIT",
   "sideEffects": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "types": "@types/",
   "files": [
     "dist/",
     "@types/"
   ],
-  "contributors": [
-    "{{CONTRIBUTOR}}"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/{{GITHUB_REPO}}.git"
-  },
-  "bugs": {
-    "url": "https://github.com/{{GITHUB_REPO}}/issues"
-  },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
+    "build:esm": "tsc --module es6 --outDir dist/esm",
     "build:watch": "npm run transform:dev & tsc -w",
     "clean": "rimraf dist && rimraf @types",
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
@@ -51,11 +40,5 @@
     "rimraf": "^3.0.2",
     "sinon": "^9.2.1",
     "typescript": "^4.0.5"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [
-    "{{KEYWORDS}}"
-  ]
+  }
 }

@@ -1,0 +1,25 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "target": "ES6",
+    "module": "ES2020",
+    "lib": [
+      "ES2018",
+      "DOM"
+    ],
+    "paths": {
+      "{{ANGULAR_PKG_NAME}}": [
+        "dist",
+        "dist/core"
+      ]
+    }
+  }
+}

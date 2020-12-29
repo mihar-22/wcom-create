@@ -2,14 +2,6 @@ dist/
 build/
 @types/
 
-integrations/react/src/components
-integrations/svelte/src/components/
-integrations/svelte/src/svelte/
-integrations/vue/src/components/
-integrations/vue-next/src/components/
-integrations/angular/projects/{{LIB_NAME}}/angular/src/{{MODULE_NAME}}Module.ts
-integrations/angular/projects/{{LIB_NAME}}/angular/src/components/
-
 *~
 *.sw[mnpcod]
 *.log

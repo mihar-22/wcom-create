@@ -10,11 +10,11 @@
 
 ## ✨ Features
 
-{{FEATURES}}
+Coming soon.
 
 ## 🍭 Examples
 
-{{EXAMPLES}}
+Coming soon.
 
 ## 🖥️ Browsers
 
@@ -31,18 +31,18 @@ listed below.
 
 ## 📖 Documentation
 
-{{DOCUMENTATION LINK}}
+Coming soon.
 
 ## 🔨 Contributing
 
 Everything you need to get started can be found in the [Contributing Guide](./.github/CONTRIBUTING.md).
 
-[package]: https://www.npmjs.com/package/{{PKG_NAME}}
-[package-badge]: https://img.shields.io/npm/v/{{PKG_NAME}}
+[package]: https://www.npmjs.com/package/{{CORE_PKG_NAME}}
+[package-badge]: https://img.shields.io/npm/v/{{CORE_PKG_NAME}}
 [license]: https://github.com/{{GITHUB_REPO}}/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/{{GITHUB_REPO}}?color=blue
 [semantic-release]: https://github.com/semantic-release/semantic-release
 [semantic-release-badge]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
-[jsdelivr]: https://www.jsdelivr.com/package/npm/{{PKG_NAME}}
-[jsdelivr-badge]: https://data.jsdelivr.com/v1/package/npm/{{PKG_NAME}}/badge?style=rounded
+[jsdelivr]: https://www.jsdelivr.com/package/npm/{{CORE_PKG_NAME}}
+[jsdelivr-badge]: https://data.jsdelivr.com/v1/package/npm/{{CORE_PKG_NAME}}/badge?style=rounded
 [release-badge]: https://github.com/{{GITHUB_REPO}}/workflows/Release/badge.svg?branch=master

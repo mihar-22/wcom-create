@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "lib": ["DOM", "ES2017"],
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "module": "ESNext",
     "target": "ESNext",
   },
