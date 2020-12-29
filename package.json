@@ -24,6 +24,7 @@
     "minimist": "^1.2.5"
   },
   "keywords": [
+    "wcom",
     "web-components",
     "cli",
     "scaffold",

@@ -1,0 +1,23 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ES6",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "@types",
+    "sourceMap": true,
+    "outDir": "dist",
+    "plugins": [{
+      "name": "ts-lit-plugin",
+      "strict": true
+    }]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "node_modules/**",
+    "web_modules/**"
+  ]
+}
