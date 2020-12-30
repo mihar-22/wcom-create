@@ -27,26 +27,8 @@ async function init() {
 
   const guessedAuthorInfo = await guessAuthorInfo();
   const questions = buildQuestions(targetDir, guessedAuthorInfo);
-  // const answers = await prompts(questions);
-  // anwers.moduleName = dashToPascalCase(answers.name);
-
-  const answers = {
-    name: 'vime',
-    moduleName: 'Vime',
-    license: 'MIT',
-    description: 'This is an amazing library.',
-    keywords: ['vime', 'player', 'video', 'audio'],
-    corePkgName: '@vime/core',
-    angularPkgName: '@vime/angular',
-    reactPkgName: '@vime/react',
-    vuePkgName: '@vime/vue',
-    vueNextPkgName: '@vime/vue-next',
-    sveltePkgName: '@vime/svelte',
-    githubRepo: 'vime-js/vime',
-    authorName: 'Rahim Alwer',
-    authorEmail: 'rahim_alwer@outlook.com',
-    integrations: ['angular', 'svelte', 'react', 'vue', 'vue-next'],
-  };
+  const answers = await prompts(questions);
+  answers.moduleName = dashToPascalCase(answers.name);
   
   const getTemplateDir = (name) => path.join(
     __dirname,
@@ -57,7 +39,7 @@ async function init() {
   // ROOT
   // -----------------------------
 
-  console.log(kleur.magenta(`Writing ${kleur.bold('root')} template files...`));
+  console.log(kleur.magenta(`\nWriting ${kleur.bold('root')} template files...`));
 
   const rootTemplateDir = getTemplateDir('root');
   const rootTemplateFiles = await fs.readdir(rootTemplateDir);
