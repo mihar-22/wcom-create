@@ -9,7 +9,7 @@ const { promises } = require('fs-extra');
 const { 
   write, copyTemplate, dashToPascalCase, 
   guessAuthorInfo, copyPkg, addGitIgnoreRules, 
-  dashToCamelCase,
+  dashToCamelCase, copyTemplates, addStepsToWorkflow,
 } = require('./src/utils');
 
 async function init() {
@@ -17,7 +17,7 @@ async function init() {
   const cwd = process.cwd();
   const targetRoot = path.join(cwd, targetDir);
 
-  console.log(kleur.cyan(`Scaffolding project in ${kleur.bold(targetRoot)}...`));
+  console.log(kleur.cyan(`\nScaffolding project in ${kleur.bold(targetRoot)}...\n`));
 
   await fs.ensureDir(targetRoot);
   const existing = await fs.readdir(targetRoot);
@@ -135,6 +135,10 @@ async function init() {
     ],
   };
 
+  const getIntegrationProperName = (integration) => integration.startsWith('vue') 
+    ? `Vue ${integration.includes('next') ? 3 : 2}`
+    : (integration.charAt(0).toUpperCase() + integration.slice(1));
+
   await Promise.all(
     answers.integrations
       .map(async (integration) => {
@@ -142,34 +146,20 @@ async function init() {
 
         const integrationTargetRoot = path.join(targetRoot, `integrations/${integration}`);
         const integrationTemplateDir = getTemplateDir(`integrations/${integration}`);
-        const integrationTemplateFiles = await fs.readdir(integrationTemplateDir);
-        const notTemplate = new Set(['package.json', 'src', 'projects']);
         const integrationPkgName = answers[`${dashToCamelCase(integration)}PkgName`];
+        const integrationTemplateId = `${integration.toUpperCase().replace('-', '_')}_PKG_NAME`;
+        const integrationProperName = getIntegrationProperName(integration);
 
-        await Promise.all(
-          integrationTemplateFiles
-            .filter(file => !notTemplate.has(file))
-            .map(file => copyTemplate(
-              integrationTargetRoot,
-              integrationTemplateDir, 
-              file, 
-              undefined, {
-                CORE_PKG_NAME: answers.corePkgName,
-                DESCRIPTION: answers.description,
-                [`${integration.toUpperCase().replace('-', '_')}_PKG_NAME`]: integrationPkgName,
-              }))
-        );
-        
-        // sort out src + projects
-
-        const properName = integration.startsWith('vue') 
-          ? `Vue ${integration.includes('next') ? 3 : 2}`
-          : (integration.charAt(0).toUpperCase() + integration.slice(1));
+        await copyTemplates(integrationTargetRoot, integrationTemplateDir, {
+          CORE_PKG_NAME: answers.corePkgName,
+          MODULE_NAME: answers.moduleName,
+          [integrationTemplateId]: integrationPkgName,
+        });
 
         await copyPkg(integrationTargetRoot, integrationTemplateDir, {
           ...answers,
           name: integrationPkgName,
-          description: `The ${properName} bindings for the ${answers.corePkgName} package.`,
+          description: `The ${integrationProperName} bindings for the ${answers.corePkgName} package.`,
           keywords: [
             integration,
             ...answers.keywords,
@@ -178,17 +168,39 @@ async function init() {
             [answers.corePkgName]: '0.0.0',
           },
         });
-
-        // read in workflows and add in integration caching to each
       })
   );
+        
+  const workflowsRoot = path.join(targetRoot, '.github/workflows');
+  const insertBeforeStep  = 'Setup Git Identity';
+  const newWorkflowSteps = answers.integrations.map(integration => `
+      - name: Cache ${getIntegrationProperName(integration)} Dependencies
+        id: ${dashToCamelCase(integration)}Deps
+        uses: actions/cache@v2
+        with:
+          path: 'integrations/${integration}/node_modules'
+          key: deps-\${{ hashFiles('integrations/${integration}/package-lock.json') }}`);
+
+  if (newWorkflowSteps.length > 0) {
+    await addStepsToWorkflow(workflowsRoot, 'release.yml', insertBeforeStep, newWorkflowSteps);
+    await addStepsToWorkflow(workflowsRoot, 'validate.yml', insertBeforeStep, newWorkflowSteps);
+  }
 
   for (const integration of answers.integrations) {
     await addGitIgnoreRules(targetRoot, gitIgnoreRules[integration]);
   }
 
-  // PROPER END MESSAGE
-  console.log(kleur.cyan(`Finished!`));
+  console.log(kleur.cyan('\nDone 🚀\n\nNow run:\n'));
+  
+  if (targetRoot !== cwd) {
+    console.log(kleur.bold(`  cd ${path.relative(cwd, targetRoot)}`));
+  }
+
+  console.log(kleur.bold('  npm install\n'));
+  console.log(kleur.bold(`  cd ${path.relative(cwd, coreTargetRoot)}`));
+  console.log(kleur.bold('  npm install'));
+  console.log(kleur.bold('  npm run serve'));
+  console.log();
 }
 
 init().catch((e) => {

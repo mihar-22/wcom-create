@@ -17,9 +17,9 @@
     "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
     "lint:eslint": "npm run lint --prefix ../",
     "lint:lit-analyzer": "lit-analyzer",
-    "serve": "wds",
-    "test": "wtr \"src/**/*.test.ts\" --coverage",
-    "test:watch": "wtr \"src/**/*.test.ts\" --watch",
+    "serve": "npm run transform:dev & wds",
+    "test": "npm run transform:dev && wtr \"src/**/*.test.ts\" --coverage",
+    "test:watch": "npm run transform:dev & wtr \"src/**/*.test.ts\" --watch",
     "transform": "wcom transform \"src/**/*.component.ts\"",
     "transform:dev": "npm run transform -- -t types exports -w",
     "transform:prod": "npm run transform -- -t types exports vscode markdown react angular svelte vue vue-next"

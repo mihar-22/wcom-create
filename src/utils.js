@@ -23,6 +23,22 @@ const write = async (targetRoot, templateDir, fileName, content) => {
   }
 }
 
+const isDirectory = async (file) => {
+  const lstat = promisify(fs.lstat);
+  return (await lstat(file)).isDirectory();
+};
+
+const copyTemplates = async (targetRoot, templateDir, replace) => {
+  const files = await fs.readdir(templateDir);
+  for (const file of files) {
+    if (await isDirectory(path.join(templateDir, file))) {
+      await copyTemplates(path.join(targetRoot, file), path.join(templateDir, file), replace);
+    } else {
+      await copyTemplate(targetRoot, templateDir, file, undefined, replace);
+    }
+  }
+}
+
 const copyTemplate = async (targetRoot, templateDir, fileName, outFileName, replace) => {
   const readPath = path.join(templateDir, fileName);
   const writePath = path.join(targetRoot, outFileName || fileName);
@@ -112,6 +128,24 @@ const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
   await fs.writeFile(writePath, JSON.stringify(sortPkg(pkg), undefined, 2));
 };
 
+const addStepsToWorkflow = async (workflowRoot, workflowFile, beforeStepName, steps) => {
+  const filePath = path.join(workflowRoot, workflowFile);
+  const content = (await fs.readFile(filePath)).toString();
+  const lines = content.split('\n');
+  const index = lines.findIndex(line => line.includes(`- name: ${beforeStepName}`)) - 1;
+  
+  let newLines = [];
+  steps.forEach(step => { newLines = [...newLines, ...step.split('\n')]; });
+  
+  const newContent = [
+    ...lines.slice(0, index),
+    ...newLines,
+    ...lines.slice(index)
+  ].join('\n');
+
+  await fs.writeFile(filePath, newContent);
+};
+
 const addGitIgnoreRules = async (targetRoot, rules) => {
   const filePath = path.join(targetRoot, '.gitignore');
   let content = await fs.readFile(filePath);
@@ -135,8 +169,10 @@ module.exports = {
   write,
   copyPkg,
   copyTemplate,
+  copyTemplates,
   dashToPascalCase,
   dashToCamelCase,
   guessAuthorInfo,
   addGitIgnoreRules,
+  addStepsToWorkflow,
 };

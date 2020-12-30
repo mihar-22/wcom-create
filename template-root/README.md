@@ -6,8 +6,6 @@
 ![Release][release-badge]
 [![jsdelivr-badge]][jsdelivr]
 
-{{DESCRIPTION}}
-
 ## ✨ Features
 
 Coming soon.
@@ -45,4 +43,4 @@ Everything you need to get started can be found in the [Contributing Guide](./.g
 [semantic-release-badge]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
 [jsdelivr]: https://www.jsdelivr.com/package/npm/{{CORE_PKG_NAME}}
 [jsdelivr-badge]: https://data.jsdelivr.com/v1/package/npm/{{CORE_PKG_NAME}}/badge?style=rounded
-[release-badge]: https://github.com/{{GITHUB_REPO}}/workflows/Release/badge.svg?branch=master
+[release-badge]: https://github.com/{{GITHUB_REPO}}/workflows/Release/badge.svg?branch=release
