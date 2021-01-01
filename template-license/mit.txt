@@ -1,31 +1,3 @@
----
-title: MIT License
-spdx-id: MIT
-
-description: A short and simple permissive license with conditions only requiring preservation 
-of copyright and license notices. Licensed works, modifications, and larger works may be 
-distributed under different terms and without source code.
-
-using:
-  Babel: https://github.com/babel/babel/blob/master/LICENSE
-  .NET Core: https://github.com/dotnet/runtime/blob/master/LICENSE.TXT
-  Rails: https://github.com/rails/rails/blob/master/MIT-LICENSE
-
-permissions:
-  - commercial-use
-  - modifications
-  - distribution
-  - private-use
-
-conditions:
-  - include-copyright
-
-limitations:
-  - liability
-  - warranty
-
----
-
 MIT License
 
 Copyright (c) {{YEAR}} {{AUTHOR_NAME}}
