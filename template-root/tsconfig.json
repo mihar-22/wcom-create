@@ -15,11 +15,7 @@
     "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "moduleResolution": "Node",
     "module": "ESNext",
-    "target": "ESNext",
-    "plugins": [{
-      "name": "ts-lit-plugin",
-      "strict": true
-    }]
+    "target": "ESNext"
   },
   "include": [
     "**/*.ts",
