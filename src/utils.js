@@ -94,7 +94,9 @@ const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
   }
 
   if (Array.isArray(pkgInfo.keywords) && pkgInfo.keywords.length > 0) {
-    pkg.keywords = pkgInfo.keywords;
+    if (pkgInfo.keywords.length > 1 || pkgInfo.keywords[0].length > 0) {
+      pkg.keywords = pkgInfo.keywords;
+    }
   }
 
   if (pkgInfo.dependencies) {

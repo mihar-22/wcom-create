@@ -69,7 +69,12 @@ async function init() {
   await copyPkg(targetRoot, rootTemplateDir, {
     name: answers.name,
     license: answers.license,
-    wcom: { packages: ['core', ...answers.integrations] }
+    wcom: { 
+      packages: [
+        'core', 
+        ...answers.integrations.map(integration => `integrations/${integration}`),
+      ] 
+    }
   });
   
   // -----------------------------
@@ -137,6 +142,7 @@ async function init() {
           name: integrationPkgName,
           description: `The ${integrationProperName} bindings for the ${answers.corePkgName} package.`,
           keywords: [
+            answers.name,
             integration,
             ...answers.keywords,
           ],
