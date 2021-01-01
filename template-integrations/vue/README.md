@@ -1,6 +1,8 @@
 # {{VUE_PKG_NAME}}
 
-The `{{VUE_PKG_NAME}}` package contains the [Vue 2][vue] bindings that wrap around the 
+> This package is compatible with both Vue 2 and Vue 3.
+
+The `{{VUE_PKG_NAME}}` package contains the [Vue][vue] bindings that wrap around the 
 [web components][web-components] in [`{{CORE_PKG_NAME}}`][core]. The bindings are auto-generated 
 by [`@wcom/cli`][wcom].
 

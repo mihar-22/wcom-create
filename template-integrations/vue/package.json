@@ -15,9 +15,9 @@
   "devDependencies": {
     "rimraf": "^3.0.2",
     "typescript": "^4.0.2",
-    "vue": "^2.6.11"
+    "vue": "^3.0.0"
   },
   "peerDependencies": {
-    "vue": "^2.6.11"
+    "vue": ">= 2.6.0 < 4.0.0"
   }
 }

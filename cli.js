@@ -10,6 +10,7 @@ const {
   write, copyTemplate, dashToPascalCase, 
   guessAuthorInfo, copyPkg, addGitIgnoreRules, 
   dashToCamelCase, copyTemplates, addStepsToWorkflow,
+  upperCaseFirstChar,
 } = require('./src/utils');
 
 async function init() {
@@ -112,14 +113,7 @@ async function init() {
     vue: [
       'integrations/vue/src/components/',
     ],
-    'vue-next': [
-      'integrations/vue-next/src/components/',
-    ],
   };
-
-  const getIntegrationProperName = (integration) => integration.startsWith('vue') 
-    ? `Vue ${integration.includes('next') ? 3 : 2}`
-    : (integration.charAt(0).toUpperCase() + integration.slice(1));
 
   await Promise.all(
     answers.integrations
@@ -130,7 +124,7 @@ async function init() {
         const integrationTemplateDir = getTemplateDir(`integrations/${integration}`);
         const integrationPkgName = answers[`${dashToCamelCase(integration)}PkgName`];
         const integrationTemplateId = `${integration.toUpperCase().replace('-', '_')}_PKG_NAME`;
-        const integrationProperName = getIntegrationProperName(integration);
+        const integrationProperName = upperCaseFirstChar(integration);
 
         await copyTemplates(integrationTargetRoot, integrationTemplateDir, {
           CORE_PKG_NAME: answers.corePkgName,
@@ -156,7 +150,7 @@ async function init() {
   const workflowsRoot = path.join(targetRoot, '.github/workflows');
   const insertBeforeStep  = 'Setup Git Identity';
   const newWorkflowSteps = answers.integrations.map(integration => `
-      - name: Cache ${getIntegrationProperName(integration)} Dependencies
+      - name: Cache ${upperCaseFirstChar(integration)} Dependencies
         id: ${dashToCamelCase(integration)}Deps
         uses: actions/cache@v2
         with:

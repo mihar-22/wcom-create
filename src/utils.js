@@ -6,6 +6,7 @@ const { exec } = require("child_process");
 const clearAndUpper = (text) => text.replace(/-/, "").toUpperCase();
 const dashToPascalCase = (text) => text.replace(/(^\w|-\w)/g, clearAndUpper);
 const dashToCamelCase = (text) => text.replace(/-([a-z])/g,  (g) => g[1].toUpperCase());
+const upperCaseFirstChar = (text) => text.charAt(0).toUpperCase() + text.slice(1)
 
 const renameFiles = {
   _gitignore: '.gitignore',
@@ -172,6 +173,7 @@ module.exports = {
   copyTemplates,
   dashToPascalCase,
   dashToCamelCase,
+  upperCaseFirstChar,
   guessAuthorInfo,
   addGitIgnoreRules,
   addStepsToWorkflow,

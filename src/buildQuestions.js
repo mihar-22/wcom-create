@@ -58,10 +58,9 @@ module.exports = (targetDir, guessedAuthorInfo) => [{
     { title: 'Angular', value: 'angular' },
     { title: 'React', value: 'react' },
     { title: 'Svelte', value: 'svelte' },
-    { title: 'Vue 2', value: 'vue' },
-    { title: 'Vue 3', value: 'vue-next' },
+    { title: 'Vue', value: 'vue' },
   ],
-}, ...['angular', 'react', 'svelte', 'vue', 'vue-next'].map(integration => ({
+}, ...['angular', 'react', 'svelte', 'vue'].map(integration => ({
   type: 'text',
   name: `${dashToCamelCase(integration)}PkgName`,
   message: `The NPM package name of the ${integration} integration library?`,
