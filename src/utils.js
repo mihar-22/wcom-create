@@ -93,9 +93,13 @@ const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
     pkg['@wcom'] = pkgInfo.wcom;
   }
 
-  if (Array.isArray(pkgInfo.keywords) && pkgInfo.keywords.length > 0) {
-    if (pkgInfo.keywords.length > 1 || pkgInfo.keywords[0].length > 0) {
-      pkg.keywords = pkgInfo.keywords;
+  if (Array.isArray(pkgInfo.keywords)) {
+    const keywords = pkgInfo.keywords
+      .map(keyword => keyword.trim())
+      .filter(keyword => keyword.length > 0);
+
+    if (keywords.length > 0) {
+      pkg.keywords = keywords;
     }
   }
 
