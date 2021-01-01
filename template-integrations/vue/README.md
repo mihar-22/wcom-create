@@ -7,6 +7,6 @@ The `{{VUE_PKG_NAME}}` package contains the [Vue][vue] bindings that wrap around
 by [`@wcom/cli`][wcom].
 
 [vue]: https://vuejs.org
-[wcom]: https://github.com/mihar-22/wc-cli
+[wcom]: https://github.com/wcom-js/cli
 [core]: https://www.npmjs.com/package/{{CORE_PKG_NAME}}
 [web-components]: https://developer.mozilla.org/en-US/docs/Web/Web_Components
