@@ -37,24 +37,25 @@ async function init() {
   );
 
   // -----------------------------
-  // ROOT
+  // CORE
   // -----------------------------
 
-  console.log(kleur.magenta(`\nWriting ${kleur.bold('root')} template files...`));
-
-  const rootTemplateDir = getTemplateDir('root');
-  const rootTemplateFiles = await fs.readdir(rootTemplateDir);
+  const coreTemplateName = argv.t || argv.template || 'lit';
+  const coreTemplateDir = getTemplateDir(coreTemplateName);
+  const coreTemplateFiles = await fs.readdir(coreTemplateDir);
+  
+  console.log(kleur.magenta(`\nWriting ${kleur.bold(coreTemplateName)} template files...`));
   
   await Promise.all(
-    rootTemplateFiles
+    coreTemplateFiles
       .filter(file => file !== 'package.json')
       .map(file => (file === 'README.md') 
-        ? copyTemplate(targetRoot, rootTemplateDir, file, undefined, {
+        ? copyTemplate(targetRoot, coreTemplateDir, file, undefined, {
           CORE_PKG_NAME: answers.corePkgName,
           GITHUB_REPO: answers.githubRepo,
           MODULE_NAME: answers.moduleName,
         }) 
-        : write(targetRoot, rootTemplateDir, file))
+        : write(targetRoot, coreTemplateDir, file))
   );
   
   await copyTemplate(
@@ -66,37 +67,15 @@ async function init() {
       AUTHOR_NAME: answers.authorName,
     });
   
-  await copyPkg(targetRoot, rootTemplateDir, {
-    name: answers.name,
+  await copyPkg(targetRoot, coreTemplateDir, {
+    ...answers,
+    name: answers.corePkgName,
     license: answers.license,
     wcom: { 
       packages: [
-        'core', 
         ...answers.integrations.map(integration => `integrations/${integration}`),
       ] 
     }
-  });
-  
-  // -----------------------------
-  // CORE
-  // -----------------------------
-  
-  const coreTemplateName = argv.t || argv.template || 'lit';
-  const coreTemplateDir = getTemplateDir(coreTemplateName);
-  const coreTemplateFiles = await fs.readdir(coreTemplateDir);
-  const coreTargetRoot = path.join(targetRoot, 'core');
-  
-  console.log(kleur.magenta(`Writing ${kleur.bold(coreTemplateName)} template files...`));
-  
-  await Promise.all(
-    coreTemplateFiles
-      .filter(file => file !== 'package.json')
-      .map(file => write(coreTargetRoot, coreTemplateDir, file))
-  );
-  
-  await copyPkg(coreTargetRoot, coreTemplateDir, {
-    ...answers,
-    name: answers.corePkgName,
   });
   
   // -----------------------------
@@ -178,8 +157,6 @@ async function init() {
     console.log(kleur.bold(`  cd ${path.relative(cwd, targetRoot)}`));
   }
 
-  console.log(kleur.bold('  npm install\n'));
-  console.log(kleur.bold(`  cd ${path.relative(cwd, coreTargetRoot)}`));
   console.log(kleur.bold('  npm install'));
   console.log(kleur.bold('  npm run serve'));
   console.log();

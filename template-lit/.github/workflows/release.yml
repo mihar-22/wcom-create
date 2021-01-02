@@ -1,10 +1,13 @@
-name: Validate
+name: Release
 
-on: pull_request
+on:
+  push:
+    branches:
+      - release
 
 jobs:
   release:
-    name: Validate
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,14 +28,7 @@ jobs:
       - name: Install Root Dependencies
         if: steps.rootDeps.outputs.cache-hit != 'true'
         run: npm install
-      
-      - name: Cache Core Dependencies
-        id: coreDeps
-        uses: actions/cache@v2
-        with:
-          path: 'core/node_modules'
-          key: deps-${{ hashFiles('core/package-lock.json') }}
-
+     
       - name: Setup Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -41,7 +37,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Validate Packages
-        run: npm run validate
+      - name: Prepare Packages
+        run: npm run ci:prepare
         env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release Packages
+        run: npm run ci:release
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

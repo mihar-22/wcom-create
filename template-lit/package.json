@@ -1,5 +1,8 @@
 {
   "version": "0.0.0",
+  "engines": {
+    "node": ">=14"
+  },
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -13,16 +16,22 @@
     "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "build:esm": "tsc --module es6 --outDir dist/esm",
     "build:watch": "npm run transform:dev & tsc -w",
+    "changelog": "wcom changelog",
+    "ci:prepare": "wcom prepare",
+    "ci:release": "wcom release",
     "clean": "rimraf dist && rimraf @types",
-    "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
-    "lint:eslint": "npm run lint --prefix ../",
-    "lint:lit-analyzer": "lit-analyzer",
+    "lint": "npm run lint:prettier && npm run lint:eslint && npm run lint:analyzer",
+    "lint:analyzer": "lit-analyzer src/**/*.ts",
+    "lint:eslint": "eslint **/*.ts --quiet --fix --ignore-path .gitignore",
+    "lint:prettier": "prettier . --write --ignore-path .gitignore --loglevel warn",
+    "postinstall": "npm run validate && npm run lint",
     "serve": "npm run transform:dev & wds",
     "test": "npm run transform:dev && wtr \"src/**/*.test.ts\" --coverage",
     "test:watch": "npm run transform:dev & wtr \"src/**/*.test.ts\" --watch",
     "transform": "wcom transform \"src/**/*.component.ts\"",
     "transform:dev": "npm run transform -- -t types exports -w",
-    "transform:prod": "npm run transform -- -t types exports vscode markdown react angular svelte vue"
+    "transform:prod": "npm run transform -- -t types exports vscode markdown react angular svelte vue",
+    "validate": "wcom validate"
   },
   "dependencies": {
     "@wcom/events": "^1.0.0",
@@ -32,13 +41,19 @@
     "@open-wc/testing": "^2.5.32",
     "@types/mocha": "^8.0.3",
     "@types/sinon": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
     "@web/dev-server": "^0.0.19",
     "@web/dev-server-esbuild": "^0.2.6",
     "@web/test-runner": "^0.9.7",
-    "@wcom/cli": "^1.0.0",
+    "eslint": "^7.8.1",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-import": "^2.22.0",
     "lit-analyzer": "^1.2.1",
+    "prettier": "2.2.1",
     "rimraf": "^3.0.2",
     "sinon": "^9.2.1",
-    "typescript": "^4.0.5"
+    "typescript": "^4.0.2"
   }
 }

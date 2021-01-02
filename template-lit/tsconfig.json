@@ -1,18 +1,28 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "ES6",
-    "declaration": true,
-    "declarationMap": true,
-    "declarationDir": "@types",
-    "sourceMap": true,
-    "outDir": "dist"
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "declaration": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "target": "ESNext"
   },
   "include": [
-    "src/**/*.ts"
+    "**/*.ts",
+    "**/*.js",
+    "**/*.mjs",
   ],
   "exclude": [
-    "src/**/*.test.ts",
     "node_modules/**",
     "web_modules/**"
   ]
