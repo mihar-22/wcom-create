@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
-    "build:esm": "tsc --module es6 --outDir dist/esm",
+    "build:cjs": "tsc -m commonjs --outDir dist/cjs",
+    "build:esm": "tsc -m es6 --outDir dist/esm",
     "clean": "rimraf dist && rimraf @types"
   },
   "dependencies": {
