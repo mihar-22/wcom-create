@@ -1,10 +1,9 @@
 const validateNPMPackageName = require("validate-npm-package-name");
-const { dashToCamelCase } = require('./utils');
 
 module.exports = (targetDir, guessedAuthorInfo) => [{
   type: 'text',
   name: 'name',
-  message: 'The name of your library?',
+  message: `The name of your library?`,
   initial: targetDir,
   validate(input) {
     if (input.trim().length === 0) return 'This field is required.';
@@ -51,28 +50,6 @@ module.exports = (targetDir, guessedAuthorInfo) => [{
   ],
   initial: 0
 }, {
-  type: 'multiselect',
-  name: 'integrations',
-  message: 'Select the framework integrations you\'d like to include:',
-  choices: [
-    { title: 'Angular', value: 'angular' },
-    { title: 'React', value: 'react' },
-    { title: 'Svelte', value: 'svelte' },
-    { title: 'Vue', value: 'vue' },
-  ],
-}, ...['angular', 'react', 'svelte', 'vue'].map(integration => ({
-  type: 'text',
-  name: `${dashToCamelCase(integration)}PkgName`,
-  message: `The NPM package name of the ${integration} integration library?`,
-  initial: (_, values) => `${values.corePkgName.startsWith('@') 
-    ? `${values.corePkgName.split('/')[0]}/` 
-    : `${values.name}-`}${integration}`,
-  type: (_, values) => values.integrations.includes(integration) ? 'text' : null,
-  validate(input) {
-    const { errors } = validateNPMPackageName(input);
-    return !errors || errors[0];
-  },
-})), {
   type: 'text',
   name: 'githubRepo',
   message: 'The name of the GitHub repository where this project is stored (eg: wcom/cli)?',

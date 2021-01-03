@@ -7,10 +7,8 @@ const prompts = require('prompts');
 const buildQuestions = require('./src/buildQuestions');
 const { promises } = require('fs-extra');
 const { 
-  write, copyTemplate, dashToPascalCase, 
-  guessAuthorInfo, copyPkg, addGitIgnoreRules, 
-  dashToCamelCase, copyTemplates, addStepsToWorkflow,
-  upperCaseFirstChar,
+  write, copyTemplate, guessAuthorInfo, 
+  copyPkg, dashToTitleCase 
 } = require('./src/utils');
 
 async function init() {
@@ -29,7 +27,6 @@ async function init() {
   const guessedAuthorInfo = await guessAuthorInfo();
   const questions = buildQuestions(targetDir, guessedAuthorInfo);
   const answers = await prompts(questions);
-  answers.moduleName = dashToPascalCase(answers.name);
   
   const getTemplateDir = (name) => path.join(
     __dirname,
@@ -53,7 +50,7 @@ async function init() {
         ? copyTemplate(targetRoot, coreTemplateDir, file, undefined, {
           CORE_PKG_NAME: answers.corePkgName,
           GITHUB_REPO: answers.githubRepo,
-          MODULE_NAME: answers.moduleName,
+          LIB_NAME: dashToTitleCase(answers.name),
         }) 
         : write(targetRoot, coreTemplateDir, file))
   );
@@ -70,87 +67,9 @@ async function init() {
   await copyPkg(targetRoot, coreTemplateDir, {
     ...answers,
     name: answers.corePkgName,
-    license: answers.license,
-    wcom: { 
-      packages: [
-        ...answers.integrations.map(integration => `integrations/${integration}`),
-      ] 
-    }
+    license: answers.license
   });
   
-  // -----------------------------
-  // INTEGRATIONS
-  // -----------------------------
-
-  const gitIgnoreRules = {
-    angular: [
-      `integrations/angular/projects/core/src/${answers.moduleName}Module.ts`,
-      'integrations/angular/projects/core/src/components/'
-    ],
-    react: [
-      'integrations/react/src/components/',
-    ],
-    svelte: [
-      'integrations/svelte/src/components/',
-      'integrations/svelte/src/svelte/'
-    ],
-    vue: [
-      'integrations/vue/src/components/',
-    ],
-  };
-
-  await Promise.all(
-    answers.integrations
-      .map(async (integration) => {
-        console.log(kleur.magenta(`Writing ${kleur.bold(integration)} template files...`));
-
-        const integrationTargetRoot = path.join(targetRoot, `integrations/${integration}`);
-        const integrationTemplateDir = getTemplateDir(`integrations/${integration}`);
-        const integrationPkgName = answers[`${dashToCamelCase(integration)}PkgName`];
-        const integrationTemplateId = `${integration.toUpperCase().replace('-', '_')}_PKG_NAME`;
-        const integrationProperName = upperCaseFirstChar(integration);
-
-        await copyTemplates(integrationTargetRoot, integrationTemplateDir, {
-          CORE_PKG_NAME: answers.corePkgName,
-          MODULE_NAME: answers.moduleName,
-          [integrationTemplateId]: integrationPkgName,
-        });
-
-        await copyPkg(integrationTargetRoot, integrationTemplateDir, {
-          ...answers,
-          name: integrationPkgName,
-          description: `The ${integrationProperName} bindings for the ${answers.corePkgName} package.`,
-          keywords: [
-            answers.name,
-            integration,
-            ...answers.keywords,
-          ],
-          dependencies: {
-            [answers.corePkgName]: '0.0.0',
-          },
-        });
-      })
-  );
-        
-  const workflowsRoot = path.join(targetRoot, '.github/workflows');
-  const insertBeforeStep  = 'Setup Git Identity';
-  const newWorkflowSteps = answers.integrations.map(integration => `
-      - name: Cache ${upperCaseFirstChar(integration)} Dependencies
-        id: ${dashToCamelCase(integration)}Deps
-        uses: actions/cache@v2
-        with:
-          path: 'integrations/${integration}/node_modules'
-          key: deps-\${{ hashFiles('integrations/${integration}/package-lock.json') }}`);
-
-  if (newWorkflowSteps.length > 0) {
-    await addStepsToWorkflow(workflowsRoot, 'release.yml', insertBeforeStep, newWorkflowSteps);
-    await addStepsToWorkflow(workflowsRoot, 'validate.yml', insertBeforeStep, newWorkflowSteps);
-  }
-
-  for (const integration of answers.integrations) {
-    await addGitIgnoreRules(targetRoot, gitIgnoreRules[integration]);
-  }
-
   console.log(kleur.cyan('\nDone 🚀\n\nNow run:\n'));
   
   if (targetRoot !== cwd) {

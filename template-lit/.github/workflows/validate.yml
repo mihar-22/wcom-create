@@ -25,16 +25,9 @@ jobs:
       - name: Install Root Dependencies
         if: steps.rootDeps.outputs.cache-hit != 'true'
         run: npm install
-
-      - name: Setup Git Identity
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Validate Packages
-        run: npm run validate
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Test Package
+        run: npm run test
+      
+      - name: Build Package
+        run: npm run build

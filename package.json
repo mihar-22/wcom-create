@@ -13,7 +13,7 @@
     "create-wcom-app": "cli.js"
   },
   "files": [
-    "src/",
+    "cli/",
     "cli.js",
     "template-*"
   ],

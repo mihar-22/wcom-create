@@ -3,8 +3,10 @@ const path = require('path');
 const { promisify } = require('util');
 const { exec } = require("child_process");
 
-const clearAndUpper = (text) => text.replace(/-/, "").toUpperCase();
+const clearAndUpper = (text) => text.replace(/-/, '').toUpperCase();
+const spaceAndUpper = (text) => text.replace(/-/, ' ').toUpperCase();
 const dashToPascalCase = (text) => text.replace(/(^\w|-\w)/g, clearAndUpper);
+const dashToTitleCase = (text) => text.replace(/(^\w|-\w)/g, spaceAndUpper);
 const dashToCamelCase = (text) => text.replace(/-([a-z])/g,  (g) => g[1].toUpperCase());
 const upperCaseFirstChar = (text) => text.charAt(0).toUpperCase() + text.slice(1)
 
@@ -179,6 +181,7 @@ module.exports = {
   copyTemplates,
   dashToPascalCase,
   dashToCamelCase,
+  dashToTitleCase,
   upperCaseFirstChar,
   guessAuthorInfo,
   addGitIgnoreRules,

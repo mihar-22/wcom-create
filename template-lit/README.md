@@ -1,4 +1,4 @@
-# {{MODULE_NAME}}
+# {{LIB_NAME}}
 
 [![package-badge]][package]
 [![license-badge]][license]
@@ -16,7 +16,7 @@ Coming soon.
 
 ## 🖥️ Browsers
 
-{{MODULE_NAME}} is forward thinking and built for the modern web. All
+{{LIB_NAME}} is forward thinking and built for the modern web. All
 [ES6 Compatible](https://caniuse.com/#feat=es6-module) browsers are supported, some of which are
 listed below.
 

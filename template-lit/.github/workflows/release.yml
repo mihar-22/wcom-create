@@ -28,7 +28,13 @@ jobs:
       - name: Install Root Dependencies
         if: steps.rootDeps.outputs.cache-hit != 'true'
         run: npm install
-     
+
+      - name: Test Package
+        run: npm run test
+
+      - name: Build Package
+        run: npm run build
+      
       - name: Setup Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -36,14 +42,9 @@ jobs:
           git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/$GITHUB_REPOSITORY
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Prepare Packages
-        run: npm run ci:prepare
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release Packages
-        run: npm run ci:release
+      - name: Release Package
+        run: npm run release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
