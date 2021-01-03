@@ -4,12 +4,12 @@ const fs = require('fs-extra');
 const argv = require('minimist')(process.argv.slice(2));
 const kleur = require('kleur');
 const prompts = require('prompts');
-const buildQuestions = require('./src/buildQuestions');
+const buildQuestions = require('./cli/buildQuestions');
 const { promises } = require('fs-extra');
 const { 
   write, copyTemplate, guessAuthorInfo, 
   copyPkg, dashToTitleCase 
-} = require('./src/utils');
+} = require('./cli/utils');
 
 async function init() {
   const targetDir = argv._[0] || '.';
