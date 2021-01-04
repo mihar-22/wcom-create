@@ -10,7 +10,7 @@
   "files": [
     "dist/",
     "@types/",
-    "vscode.json"
+    "vscode.html-data.json"
   ],
   "scripts": {
     "build": "run-s clean transform:prod build:cjs build:esm",
