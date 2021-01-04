@@ -9,7 +9,8 @@
   "types": "@types/",
   "files": [
     "dist/",
-    "@types/"
+    "@types/",
+    "vscode.json"
   ],
   "scripts": {
     "build": "run-s clean transform:prod build:cjs build:esm",
