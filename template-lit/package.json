@@ -13,23 +13,22 @@
     "vscode.html-data.json"
   ],
   "scripts": {
-    "build": "run-s clean transform:prod build:cjs build:esm",
+    "build": "run-s clean transform build:cjs build:esm",
     "build:cjs": "tsc -m commonjs --outDir dist/cjs -p tsconfig-lit.json",
     "build:esm": "tsc -m es6 --outDir dist/esm -p tsconfig-lit.json",
-    "build:watch": "npm run transform:dev",
+    "build:watch": "npm run build:esm -- -w",
     "clean": "rimraf dist && rimraf @types",
     "lint": "run-s lint:*",
     "lint:analyzer": "lit-analyzer src/**/*.ts",
     "lint:eslint": "eslint **/*.ts --quiet --fix --ignore-path .gitignore",
     "lint:prettier": "prettier . --write --ignore-path .gitignore --loglevel warn",
-    "postinstall": "npm run lint",
     "release": "npx semantic-release --branches main",
-    "serve": "run-p transform:dev wds",
-    "test": "run-s transform:dev \"wtr \"src/**/*.test.ts\" --coverage\"",
-    "test:watch": "run-p transform:dev \"wtr \"src/**/*.test.ts\" --watch\"",
-    "transform": "wcom transform \"src/**/*.component.ts\" -p tsconfig-lit.json",
-    "transform:dev": "npm run transform -- -t types exports -w",
-    "transform:prod": "npm run transform -- -t types exports vscode markdown"
+    "serve": "wds",
+    "test": "run-s transform test:coverage",
+    "test:wtr": "wtr \"src/**/*.test.ts\"",
+    "test:coverage": "npm run test:wtr -- --coverage",
+    "test:watch": "npm run test:wtr -- --watch",
+    "transform": "wcom transform \"src/**/*.ts\" -t types exports vscode markdown"
   },
   "dependencies": {
     "@wcom/events": "^1.0.0",

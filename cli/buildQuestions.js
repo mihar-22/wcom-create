@@ -16,7 +16,7 @@ module.exports = (targetDir, guessedAuthorInfo) => [{
 }, {
   type: 'text',
   name: 'corePkgName',
-  message: 'The NPM package name of the core web component library?',
+  message: 'The NPM package name of the web component library?',
   initial: `@${targetDir}/core`,
   validate(input) {
     const { errors } = validateNPMPackageName(input);
