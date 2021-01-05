@@ -15,7 +15,7 @@
   "files": [
     "cli/",
     "cli.js",
-    "template-*"
+    "template-*/**"
   ],
   "scripts": {
     "release": "npx semantic-release --branches main"
