@@ -33,7 +33,7 @@ more information on how this library works.
 
 ## IDE
 
-If you're using [VSCode](https://code.visualstudio.com/) the consider installing the following 
+If you're using [VSCode](https://code.visualstudio.com/) then consider installing the following 
 extensions...
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
