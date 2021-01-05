@@ -12,6 +12,7 @@ const upperCaseFirstChar = (text) => text.charAt(0).toUpperCase() + text.slice(1
 
 const renameFiles = {
   _gitignore: '.gitignore',
+  '_package.json': 'package.json',
 };
 
 const write = async (targetRoot, templateDir, fileName, content) => {
