@@ -45,7 +45,7 @@ async function init() {
   
   await Promise.all(
     coreTemplateFiles
-      .filter(file => file !== 'package.json')
+      .filter(file => file !== '_package.json')
       .map(file => (file === 'README.md') 
         ? copyTemplate(targetRoot, coreTemplateDir, file, undefined, {
           CORE_PKG_NAME: answers.corePkgName,

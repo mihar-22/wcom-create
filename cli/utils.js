@@ -87,7 +87,7 @@ const sortPkg = (pkg) => {
 };
 
 const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
-  const readPath = path.join(templateDir, 'package.json');
+  const readPath = path.join(templateDir, '_package.json');
   const writePath = path.join(targetRoot, 'package.json');
   let pkg = JSON.parse((await fs.readFile(readPath)).toString());
   pkg.name = pkgInfo.name;
