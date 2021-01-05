@@ -19,10 +19,10 @@ Simply create a modern web component library by running the following...
 
 ```bash
 # NPM
-$ npm init @wcom/app
+$ npm init @wcom/app <my-library>
 
 # Yarn
-$ yarn create @wcom/app
+$ yarn create @wcom/app <my-library>
 ```
 
 Then follow the prompts and you'll be up and running in no time! 
