@@ -73,6 +73,8 @@ const sortPkg = (pkg) => {
     'dependencies',
     'devDependencies',
     'peerDependencies',
+    'husky',
+    'lint-staged',
     'publishConfig',
     'keywords',
     '@wcom',
