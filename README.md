@@ -13,7 +13,7 @@
 
 ## Introduction
 
-> See an example of a project created with `@wcom/app` [here](https://github.com/wcom-js/lit-test).
+> See an example of a project created with `@wcom/app` [here](https://github.com/mihar-22/wcom-lit-test).
 
 Simply create a modern web component library by running the following...
 
@@ -100,7 +100,7 @@ that to you. However, sometimes simple markdown files hosted on GitHub is all yo
 
 ## Transform
 
-The transform command uses [`@wcom/cli`](https://github.com/wcom-js/cli) to parse your 
+The transform command uses [`@wcom/cli`](https://github.com/mihar-22/wcom-cli) to parse your 
 TypeScript files and collect metadata such as what properties, methods, events and other 
 information each component contains. This metadata can then be 'transformed' into other formats 
 such as `json`, `markdown`, `.d.ts` etc. To find out more about the transform tool click the link 
