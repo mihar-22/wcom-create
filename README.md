@@ -40,7 +40,7 @@ extensions...
 
 ## Build
 
-The build script simply leverages TypeScript to do the work and outputs basic CJS and ESM exports
+The build script simply leverages TypeScript to do the work and outputs basic ESM exports
 as Polymer suggests...
 
 > We recommend publishing components as unoptimized JavaScript modules, and performing build-time
