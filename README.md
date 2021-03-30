@@ -13,8 +13,6 @@
 
 ## Introduction
 
-> See an example of a project created with `@wcom/app` [here](https://github.com/mihar-22/wcom-lit-test).
-
 Simply create a modern web component library by running the following...
 
 ```bash
