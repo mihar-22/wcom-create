@@ -1,18 +1,20 @@
-const fs = require('fs-extra');
-const path = require('path');
-const { promisify } = require('util');
+const fs = require("fs-extra");
+const path = require("path");
+const { promisify } = require("util");
 const { exec } = require("child_process");
 
-const clearAndUpper = (text) => text.replace(/-/, '').toUpperCase();
-const spaceAndUpper = (text) => text.replace(/-/, ' ').toUpperCase();
+const clearAndUpper = (text) => text.replace(/-/, "").toUpperCase();
+const spaceAndUpper = (text) => text.replace(/-/, " ").toUpperCase();
 const dashToPascalCase = (text) => text.replace(/(^\w|-\w)/g, clearAndUpper);
 const dashToTitleCase = (text) => text.replace(/(^\w|-\w)/g, spaceAndUpper);
-const dashToCamelCase = (text) => text.replace(/-([a-z])/g,  (g) => g[1].toUpperCase());
-const upperCaseFirstChar = (text) => text.charAt(0).toUpperCase() + text.slice(1)
+const dashToCamelCase = (text) =>
+  text.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+const upperCaseFirstChar = (text) =>
+  text.charAt(0).toUpperCase() + text.slice(1);
 
 const renameFiles = {
-  _gitignore: '.gitignore',
-  '_package.json': 'package.json',
+  _gitignore: ".gitignore",
+  "_package.json": "package.json",
 };
 
 const write = async (targetRoot, templateDir, fileName, content) => {
@@ -25,7 +27,7 @@ const write = async (targetRoot, templateDir, fileName, content) => {
   } else {
     await fs.copy(path.join(templateDir, fileName), targetPath);
   }
-}
+};
 
 const isDirectory = async (file) => {
   const lstat = promisify(fs.lstat);
@@ -36,19 +38,32 @@ const copyTemplates = async (targetRoot, templateDir, replace) => {
   const files = await fs.readdir(templateDir);
   for (const file of files) {
     if (await isDirectory(path.join(templateDir, file))) {
-      await copyTemplates(path.join(targetRoot, file), path.join(templateDir, file), replace);
+      await copyTemplates(
+        path.join(targetRoot, file),
+        path.join(templateDir, file),
+        replace
+      );
     } else {
       await copyTemplate(targetRoot, templateDir, file, undefined, replace);
     }
   }
-}
+};
 
-const copyTemplate = async (targetRoot, templateDir, fileName, outFileName, replace) => {
+const copyTemplate = async (
+  targetRoot,
+  templateDir,
+  fileName,
+  outFileName,
+  replace
+) => {
   const readPath = path.join(templateDir, fileName);
   const writePath = path.join(targetRoot, outFileName || fileName);
   let content = (await fs.readFile(readPath)).toString();
-  Object.keys(replace).forEach(template => {
-    content = content.replace(new RegExp(`\{\{${template}\}\}`, 'g'), replace[template]);
+  Object.keys(replace).forEach((template) => {
+    content = content.replace(
+      new RegExp(`\{\{${template}\}\}`, "g"),
+      replace[template]
+    );
   });
   await fs.mkdir(path.dirname(writePath), { recursive: true });
   await fs.writeFile(writePath, content);
@@ -56,29 +71,31 @@ const copyTemplate = async (targetRoot, templateDir, fileName, outFileName, repl
 
 const sortPkg = (pkg) => {
   const order = [
-    'name',
-    'private',
-    'version',
-    'description',
-    'license',
-    'engines',
-    'sideEffects',
-    'main',
-    'module',
-    'types',
-    'files', 
-    'contributors',
-    'repository',
-    'bugs',
-    'scripts',
-    'dependencies',
-    'devDependencies',
-    'peerDependencies',
-    'husky',
-    'lint-staged',
-    'publishConfig',
-    'keywords',
-    '@wcom',
+    "name",
+    "type",
+    "private",
+    "version",
+    "description",
+    "license",
+    "engines",
+    "sideEffects",
+    "main",
+    "module",
+    "types",
+    "files",
+    "contributors",
+    "repository",
+    "bugs",
+    "scripts",
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "husky",
+    "lint-staged",
+    "prettier",
+    "publishConfig",
+    "release",
+    "keywords",
   ];
 
   return Object.keys(pkg)
@@ -87,21 +104,21 @@ const sortPkg = (pkg) => {
 };
 
 const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
-  const readPath = path.join(templateDir, '_package.json');
-  const writePath = path.join(targetRoot, 'package.json');
+  const readPath = path.join(templateDir, "_package.json");
+  const writePath = path.join(targetRoot, "package.json");
   let pkg = JSON.parse((await fs.readFile(readPath)).toString());
   pkg.name = pkgInfo.name;
   pkg.description = pkgInfo.description;
   pkg.license = pkgInfo.license;
 
   if (pkgInfo.wcom) {
-    pkg['@wcom'] = pkgInfo.wcom;
+    pkg["@wcom"] = pkgInfo.wcom;
   }
 
   if (Array.isArray(pkgInfo.keywords)) {
     const keywords = pkgInfo.keywords
-      .map(keyword => keyword.trim())
-      .filter(keyword => keyword.length > 0);
+      .map((keyword) => keyword.trim())
+      .filter((keyword) => keyword.length > 0);
 
     if (keywords.length > 0) {
       pkg.keywords = keywords;
@@ -113,64 +130,74 @@ const copyPkg = async (targetRoot, templateDir, pkgInfo) => {
       ...(pkg.dependencies || {}),
       ...pkgInfo.dependencies,
     };
-  } 
-  
-  if (pkgInfo.name.startsWith('@')) {
-    pkg.publishConfig = { access: 'public' };
   }
-  
+
+  if (pkgInfo.name.startsWith("@")) {
+    pkg.publishConfig = { access: "public" };
+  }
+
   if (pkgInfo.authorName) {
     const hasEmail = pkgInfo.authorEmail && pkgInfo.authorEmail.length > 0;
     pkg.contributors = [
-      `${pkgInfo.authorName}${(hasEmail ? ` <${pkgInfo.authorEmail}>` : '')}`
+      `${pkgInfo.authorName}${hasEmail ? ` <${pkgInfo.authorEmail}>` : ""}`,
     ];
   }
 
   if (pkgInfo.githubRepo) {
     pkg.repository = {
-      type: 'git',
-      url: `https://github.com/${pkgInfo.githubRepo}.git`
+      type: "git",
+      url: `https://github.com/${pkgInfo.githubRepo}.git`,
     };
 
     pkg.bugs = {
-      url: `https://github.com/${pkgInfo.githubRepo}/issues`
+      url: `https://github.com/${pkgInfo.githubRepo}/issues`,
     };
   }
 
   await fs.writeFile(writePath, JSON.stringify(sortPkg(pkg), undefined, 2));
 };
 
-const addStepsToWorkflow = async (workflowRoot, workflowFile, beforeStepName, steps) => {
+const addStepsToWorkflow = async (
+  workflowRoot,
+  workflowFile,
+  beforeStepName,
+  steps
+) => {
   const filePath = path.join(workflowRoot, workflowFile);
   const content = (await fs.readFile(filePath)).toString();
-  const lines = content.split('\n');
-  const index = lines.findIndex(line => line.includes(`- name: ${beforeStepName}`)) - 1;
-  
+  const lines = content.split("\n");
+  const index =
+    lines.findIndex((line) => line.includes(`- name: ${beforeStepName}`)) - 1;
+
   let newLines = [];
-  steps.forEach(step => { newLines = [...newLines, ...step.split('\n')]; });
-  
+  steps.forEach((step) => {
+    newLines = [...newLines, ...step.split("\n")];
+  });
+
   const newContent = [
     ...lines.slice(0, index),
     ...newLines,
-    ...lines.slice(index)
-  ].join('\n');
+    ...lines.slice(index),
+  ].join("\n");
 
   await fs.writeFile(filePath, newContent);
 };
 
 const addGitIgnoreRules = async (targetRoot, rules) => {
-  const filePath = path.join(targetRoot, '.gitignore');
+  const filePath = path.join(targetRoot, ".gitignore");
   let content = await fs.readFile(filePath);
-  rules.forEach((rule) => { content += `\n${rule}`; });
-  content += '\n';
+  rules.forEach((rule) => {
+    content += `\n${rule}`;
+  });
+  content += "\n";
   await fs.writeFile(filePath, content);
 };
 
-const guessAuthorInfo = async () => {  
+const guessAuthorInfo = async () => {
   try {
-    const clean = (input) => input ? input.trim().replace('\n', '') : '';
-    const { stdout: name } = await promisify(exec)('git config user.name');
-    const { stdout: email } = await promisify(exec)('git config user.email');
+    const clean = (input) => (input ? input.trim().replace("\n", "") : "");
+    const { stdout: name } = await promisify(exec)("git config user.name");
+    const { stdout: email } = await promisify(exec)("git config user.email");
     return { name: clean(name), email: clean(email) };
   } catch (e) {
     return {};

@@ -1,25 +1,24 @@
 {
-  "root": true,
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
   "env": {
     "browser": true
   },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
   "extends": [
-    "airbnb-typescript/base",
+    "plugin:wc/recommended",
+    "plugin:lit/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "rules": {
     "no-console": "off",
-    "no-param-reassign": "off",
     "no-underscore-dangle": "off",
     "default-case": "off",
     "class-methods-use-this": "off",
-    "import/prefer-default-export": "off",
-    "@typescript-eslint/no-use-before-define": "off",
+    "max-classes-per-file": "off",
     "@typescript-eslint/no-unused-expressions": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

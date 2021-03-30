@@ -4,10 +4,15 @@
     "module": "ES6",
     "declaration": true,
     "declarationMap": true,
-    "declarationDir": "@types",
     "sourceMap": true,
+    "importHelpers": true,
     "outDir": "dist"
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.test.ts", "node_modules/**", "web_modules/**"]
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.stories.ts",
+    "node_modules/**",
+    "web_modules/**"
+  ]
 }

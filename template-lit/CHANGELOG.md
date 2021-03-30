@@ -1,4 +1,5 @@
-# Changelog
+# CHANGELOG
 
-All notable changes to this project will be documented in this file. See 
-[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+The changelog is automatically updated using
+[semantic-release](https://github.com/semantic-release/semantic-release). You
+can see it on the [releases page](../../releases).

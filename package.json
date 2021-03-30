@@ -28,16 +28,16 @@
     "validate-npm-package-name": "^3.0.0"
   },
   "keywords": [
-    "wcom",
-    "web-components",
     "cli",
-    "scaffold",
-    "starter",
     "generate",
+    "lit-element",
     "production ready",
     "scaffold",
-    "lit-element",
-    "typescript"
+    "scaffold",
+    "starter",
+    "typescript",
+    "wcom",
+    "web-components"
   ],
   "publishConfig": {
     "access": "public"

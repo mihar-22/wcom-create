@@ -1,6 +1,8 @@
 dist/
 build/
-@types/
+
+custom-elements.json
+vscode.html-data.json
 
 *~
 *.sw[mnpcod]
@@ -29,16 +31,16 @@ speed-measure-plugin*.json
 /bazel-out
 /.pnp
 .pnp.js
-.eslintcache/
+.eslintcache
 .nyc_output/
 .idea/
 .vscode/
-.cache-loader/
 .versions/
 node_modules/
 web_modules/
 coverage/
-$RECYCLE.BIN/
+cypress-coverage/
+$RECYCLE.BIN
 
 .DS_Store
 Thumbs.db
